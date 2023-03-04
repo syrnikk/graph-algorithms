@@ -1,6 +1,5 @@
 import csv
 
-
 def read_list(src, v_sep=":", n_sep=","):
     """Function that reads graph represented as list
 
@@ -12,7 +11,7 @@ def read_list(src, v_sep=":", n_sep=","):
     Returns:
         dictionary: graph represented as list
     """
-    
+
     data = csv.DictReader(src, delimiter=n_sep, fieldnames=[])
     result = []
     for d in data.reader:
@@ -20,6 +19,7 @@ def read_list(src, v_sep=":", n_sep=","):
         result.append((h[0], [h[1], *d[1:]]))
 
     return dict(result)
+
 
 def read_adj_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_sep=","):
     """Function that reads graph represented as adjacency matrix
@@ -49,10 +49,9 @@ def read_adj_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_sep=","
         if not no_v and (i > 0 if not no_e else i > -1):
             h = d[0].split(v_sep)
             vertices.append(h[0])
-            matrix.append([h[1], *d[1:]])
+            matrix.append([int(h[1]), *map(lambda x:int(x), d[1:])])
         else:
-            matrix.append(d)
-
+            matrix.append(list(map(lambda x:int(x),d)))
     return (vertices, edges, matrix)
 
 
@@ -71,11 +70,10 @@ def read_nei_matrix(src, no_v=False, v_sep=" ", n_sep=","):
 
     data = list(map(lambda x: x[:-1], src))
 
-    vertices = [str(i+1) for i in range(len(data))
-                ] if no_v else data[0].split(v_sep)
+    vertices = [str(i+1) for i in range(len(data))] if no_v else data[0].split(v_sep)
 
     matrix = list(map(lambda x: x.split(n_sep), data[0 if no_v else 1:]))
-
+    
     return (vertices, matrix)
 
 
@@ -126,9 +124,9 @@ def print_adj_matrix(vertices, edges, matrix, sep=" "):
         matrix (2d-list): adjacency matrix
         sep (str, optional): printing separator. Defaults to " ".
     """
-    
+
     print(f'{sep}{sep.join(edges)}')
-    for i,r in enumerate(matrix):
+    for i, r in enumerate(matrix):
         if len(vertices) > 0:
             print(vertices[i], end=sep)
         for c in r:
