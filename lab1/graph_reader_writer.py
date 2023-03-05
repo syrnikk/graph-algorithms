@@ -1,4 +1,6 @@
 import csv
+import numpy as np
+
 
 def read_list(src, v_sep=":", n_sep=","):
     """Function that reads graph represented as list
@@ -16,7 +18,8 @@ def read_list(src, v_sep=":", n_sep=","):
     result = []
     for d in data.reader:
         h = d[0].split(v_sep)
-        result.append((h[0], [h[1], *d[1:]]))
+        values = list(map(lambda x: int(x), [h[1], *d[1:]]))
+        result.append((int(h[0]), values))
 
     return dict(result)
 
@@ -49,9 +52,12 @@ def read_adj_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_sep=","
         if not no_v and (i > 0 if not no_e else i > -1):
             h = d[0].split(v_sep)
             vertices.append(h[0])
-            matrix.append([int(h[1]), *map(lambda x:int(x), d[1:])])
+            matrix.append([h[1], *d[1:]])
         else:
-            matrix.append(list(map(lambda x:int(x),d)))
+            matrix.append(d)
+
+    matrix = np.matrix(matrix, dtype=int)
+
     return (vertices, edges, matrix)
 
 
@@ -70,10 +76,12 @@ def read_nei_matrix(src, no_v=False, v_sep=" ", n_sep=","):
 
     data = list(map(lambda x: x[:-1], src))
 
-    vertices = [str(i+1) for i in range(len(data))] if no_v else data[0].split(v_sep)
+    vertices = [str(i+1) for i in range(len(data))
+                ] if no_v else data[0].split(v_sep)
 
     matrix = list(map(lambda x: x.split(n_sep), data[0 if no_v else 1:]))
-    
+
+    matrix = np.matrix(matrix, dtype=int)
     return (vertices, matrix)
 
 
@@ -86,7 +94,7 @@ def print_list(list):
 
     for k, v in list.items():
         print(k, end=": ")
-        print(",".join(v))
+        print(",".join(map(lambda x: str(x), v)))
 
 
 def print_nei_matrix(vertices, matrix, sep=" ", display_dashes=True):
@@ -102,16 +110,18 @@ def print_nei_matrix(vertices, matrix, sep=" ", display_dashes=True):
         ValueError: Lengths do not match
     """
 
-    if len(vertices) != len(matrix[0]):
+    shape = np.shape(matrix)
+
+    if len(vertices) != shape[0]:
         raise ValueError("Lengths do not match")
-    print(sep.join(vertices))
+    print(sep.join([str(i) for i in vertices]))
 
     if display_dashes:
         print(sep.join(["-" for _ in range(len(vertices))]))
 
-    for r in matrix:
-        for c in r:
-            print(c, end=sep)
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            print(matrix[i, j], end=sep)
         print()
 
 
@@ -125,12 +135,14 @@ def print_adj_matrix(vertices, edges, matrix, sep=" "):
         sep (str, optional): printing separator. Defaults to " ".
     """
 
-    print(f'{sep}{sep.join(edges)}')
-    for i, r in enumerate(matrix):
+    shape = np.shape(matrix)
+
+    print(f'{sep}{sep.join([str(e) for e in edges])}')
+    for i in range(shape[0]):
         if len(vertices) > 0:
             print(vertices[i], end=sep)
-        for c in r:
-            print(c, end=sep)
+        for j in range(shape[1]):
+            print(matrix[i, j], end=sep)
         print()
 
 
