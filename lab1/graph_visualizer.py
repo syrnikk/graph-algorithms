@@ -18,6 +18,13 @@ class GraphVisualizer:
         self.__font = ImageFont.truetype("arial.ttf", self.__vertex_radius)
 
     def print_to_file(self, file_name):
+        image = self.__graph_to_image()
+        image.save(file_name)
+
+    def get_image(self):
+        return self.__graph_to_image()
+
+    def __graph_to_image(self):
         image = Image.new('RGBA', (self.__img_size, self.__img_size))
         draw = ImageDraw.Draw(image)
 
@@ -25,7 +32,7 @@ class GraphVisualizer:
         self.__draw_edges(draw)
         self.__draw_vertexes(draw)
 
-        image.save(file_name)
+        return image
 
     def __draw_outline_circle(self, draw):
         for alpha in np.arange(0.0, 2 * math.pi, self.__fi_step):
