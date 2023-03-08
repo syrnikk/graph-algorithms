@@ -18,8 +18,12 @@ def read_list(src, v_sep=":", n_sep=","):
     result = []
     for d in data.reader:
         h = d[0].split(v_sep)
-        values = list(map(lambda x: int(x), [h[1], *d[1:]]))
-        result.append((int(h[0]), values))
+
+        if h[1] != '':
+            values = list(map(lambda x: int(x), [h[1], *d[1:]]))
+            result.append((int(h[0]), values))
+        else:
+            result.append((int(h[0]),[]))
 
     return dict(result)
 
