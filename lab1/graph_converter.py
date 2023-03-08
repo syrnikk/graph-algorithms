@@ -13,11 +13,11 @@ def convert_list_to_matrix(graph_list: dict, nodes_number):
 
 def convert_matrix_to_list(graph_matrix: np.matrix, nodes_number):
     """Funciont converting graph storage form from adjacency matrix to adjacency list"""
-    graph_list = dict()
+    graph_list = dict((i, list()) for i in range(nodes_number))
     for i in range(nodes_number):
         for j in range(nodes_number):
             if graph_matrix[i, j] > 0:
-                graph_list.setdefault(i, list()).append(j)
+                graph_list[i].append(j)
 
     return graph_list
 
@@ -46,10 +46,11 @@ def convert_list_to_incidence(graph_list: dict, nodes_number):
 
 def convert_incidence_to_list(graph_incidence: np.matrix):
     """Funciont converting graph storage form from incidence matrix to adjacency list"""
-    graph_list = dict()
+    nodes_number = graph_incidence.shape[0]
+    graph_list = dict((i, list()) for i in range(nodes_number))
     it = iter(np.nonzero(graph_incidence.T)[1])
     for i, j in zip(it, it):
-        graph_list.setdefault(i, list()).append(j)
-        graph_list.setdefault(j, list()).append(i)
+        graph_list[i].append(j)
+        graph_list[j].append(i)
 
     return graph_list
