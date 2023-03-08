@@ -1,8 +1,9 @@
 import numpy as np
 
 
-def convert_list_to_matrix(graph_list: dict, nodes_number):
+def convert_list_to_matrix(graph_list: dict):
     """Funciont converting graph storage form from adjacency list to adjacency matrix"""
+    nodes_number = len(graph_list)
     graph_matrix = np.zeros((nodes_number, nodes_number), np.uint8)
     for node, neighbours in graph_list.items():
         for neighbour in neighbours:
@@ -11,8 +12,9 @@ def convert_list_to_matrix(graph_list: dict, nodes_number):
     return graph_matrix
 
 
-def convert_matrix_to_list(graph_matrix: np.matrix, nodes_number):
+def convert_matrix_to_list(graph_matrix: np.matrix):
     """Funciont converting graph storage form from adjacency matrix to adjacency list"""
+    nodes_number = graph_matrix.shape[0]
     graph_list = dict((i, list()) for i in range(nodes_number))
     for i in range(nodes_number):
         for j in range(nodes_number):
@@ -24,7 +26,7 @@ def convert_matrix_to_list(graph_matrix: np.matrix, nodes_number):
 
 def convert_list_to_incidence(graph_list: dict, nodes_number):
     """Funciont converting graph storage form from adjacency list to incidence matrix"""
-    edges_number = 0
+    nodes_number = len(graph_list)
     graph_incidence_T = np.zeros((0, nodes_number), np.uint8)
     for node, neighbours in graph_list.items():
         for neighbour in neighbours:
