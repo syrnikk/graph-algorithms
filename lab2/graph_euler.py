@@ -4,13 +4,13 @@ from graph_components import max_connected_components, depth_first_search
 
 
 def generate_euler(n=-1):
-    """Funkcja generujaca losowy graf Eulera
+    """Function generating random Euler graph
 
     Args:
-        n (int, optional): ilosc wierzcholkow - w przypadku braku podania - wartosc losowa. Defaults to -1.
+        n (int, optional): number of vertices - in case of missing the parameter - random value. Defaults to -1.
 
     Returns:
-        _type_: wylosowany graf
+        dict: random Euler graph
     """
 
     if n == -1:
@@ -34,12 +34,12 @@ def generate_euler(n=-1):
 
 
 def add_edge_back(graph : dict, u, v):
-    """Funkcja dodajaca krawedz miedzy u i v z powrotem
+    """Function that adds edge between u and v
 
     Args:
-        graph (dict): graf
-        u (_type_): wierzcholek u
-        v (_type_): wierzcholek v
+        graph (dict): graph
+        u (int): vertex u
+        v (int): vertex v
     """
 
     graph[u].append(v)
@@ -47,12 +47,12 @@ def add_edge_back(graph : dict, u, v):
 
 
 def remove_edge(graph : dict, u, v):
-    """funkcja usuwajaca krawedz miedzy u i v
+    """Function removing edge between u and v
 
     Args:
-        graph (dict): graf
-        u (_type_): wierzcholek u
-        v (_type_): wierzcholek v
+        graph (dict): graph
+        u (int): vertex u
+        v (int): vertex v
     """
 
     graph[u].remove(v)
@@ -60,15 +60,15 @@ def remove_edge(graph : dict, u, v):
 
 
 def is_bridge(graph : dict, u, v):
-    """funkcja sprawdzajaca czy krawedz miedzy u i v jest mostem
+    """Function checking whether edge between u and v is a bridge
 
     Args:
-        graph (dict): graf
-        u (_type_): wierzcholek u
-        v (_type_): wierzcholek v
+        graph (dict): graph
+        u (int): vertex u
+        v (int): vertex v
 
     Returns:
-        bool : informacja czy krawedz (u,v) jest mostem
+        bool : is (u,v) bridge 
     """
 
     if len(graph[u]) == 1:
@@ -82,29 +82,29 @@ def is_bridge(graph : dict, u, v):
 
 
 def fleury_algorithm(graph : dict):
-    """implementacja algorytmu Fleury'ego
+    """Fleury's algorithm implementation
 
     Args:
-        graph (dict): graf
+        graph (dict): graph
 
     Returns:
-        list: lista odwiedzonych wierzcholkow
+        list: visited vertices
     """
     
     u = choice(list(graph.keys()))
-    vertices_met = []
+    visited_vertices = []
 
     def find_eulerian_trail(graph, u):
         for v in graph[u]:
             if not is_bridge(graph, u, v):
-                vertices_met.append(u)
+                visited_vertices.append(u)
                 remove_edge(graph, u, v)
                 find_eulerian_trail(graph, v)
 
     find_eulerian_trail(graph, u)
-    vertices_met.append(u)
+    visited_vertices.append(u)
 
-    return vertices_met
+    return visited_vertices
 
 
 if __name__ == "__main__":
