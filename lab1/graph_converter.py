@@ -24,7 +24,7 @@ def convert_matrix_to_list(graph_matrix: np.matrix):
     return graph_list
 
 
-def convert_list_to_incidence(graph_list: dict, nodes_number):
+def convert_list_to_incidence(graph_list: dict):
     """Funciont converting graph storage form from adjacency list to incidence matrix"""
     nodes_number = len(graph_list)
     graph_incidence_T = np.zeros((0, nodes_number), np.uint8)
