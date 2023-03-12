@@ -1,4 +1,3 @@
-
 def create_from_sequence(sequence: list) -> dict:
     """Create graph from degree sequence if possible
 
@@ -10,7 +9,7 @@ def create_from_sequence(sequence: list) -> dict:
     """
     nodes_number = len(sequence)
     sequence.sort(reverse=True)
-    if (sequence[0] >= nodes_number or sequence[-1] < 0):
+    if sequence[0] >= nodes_number or sequence[-1] < 0:
         return {}
 
     sequence = list(zip(range(nodes_number), sequence))

@@ -9,13 +9,33 @@ def depth_first_search(graph, start, visited=None):
     Returns:
         list: list of strongly connected components
     """
-    
+
     if visited is None:
         visited = set()
     visited.add(start)
     for next in set(graph[start]) - visited:
         depth_first_search(graph, next, visited)
     return visited
+
+
+def find_connected_components(graph: dict):
+    """Find connected components
+    Args:
+        graph (dict): graph
+
+    Returns:
+        list: list of strongly connected components
+    """
+
+    subgraphs = []
+    nodes = list(graph.keys())
+    while len(nodes) != 0:
+        subgraph = depth_first_search(graph, nodes[0])
+        subgraphs.append(subgraph)
+        nodes = [node for node in nodes if node not in subgraph]
+        graph = {key: value for key, value in graph.items() if key not in subgraph}
+
+    return subgraphs
 
 
 def max_connected_components(graph: dict):
@@ -27,12 +47,6 @@ def max_connected_components(graph: dict):
     Returns:
         list: max list of strongly connected components
     """
-    
-    subgraphs = []
-    nodes = list(graph.keys())
-    while len(nodes) != 0:
-        subgraph = depth_first_search(graph, nodes[0])
-        subgraphs.append(subgraph)
-        nodes = [node for node in nodes if node not in subgraph]
-        graph = {key: value for key, value in graph.items() if key not in subgraph}
+
+    subgraphs = find_connected_components(graph)
     return max(subgraphs, key=len)

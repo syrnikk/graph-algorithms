@@ -3,7 +3,7 @@ import numpy as np
 from lab1 import graph_converter
 
 
-def randomize(graph: dict, swaps_num=5, max_total_attempts=1000) -> dict:
+def randomly_swap_edges(graph: dict, swaps_num=5, max_total_attempts=1000) -> dict:
     """Randomize graph in place by swapping edges {a, b}, {c, d} to {a, d}, {b, c} swaps_num times
 
     Args:
@@ -14,6 +14,7 @@ def randomize(graph: dict, swaps_num=5, max_total_attempts=1000) -> dict:
     Returns:
         dict: randomized graph in adjacency list form
     """
+
     def is_not_legal_to_add_edge(edge):
         return edge[0] == edge[1] or edge[1] in graph[edge[0]] or edge[0] in graph[edge[1]]
 
@@ -32,9 +33,10 @@ def randomize(graph: dict, swaps_num=5, max_total_attempts=1000) -> dict:
     swaps_left = swaps_num
     attempts = 0
     while swaps_left > 0:
-        if (attempts >= max_total_attempts):
+        if attempts >= max_total_attempts:
             print(
-                "Too many attempts, graph is dense so it's hard to randomly find proper edges to swap, returning graph with", swaps_num - swaps_left, "swaps done")
+                "Too many attempts, graph is dense so it's hard to randomly find proper edges to swap, returning "
+                "graph with", swaps_num - swaps_left, "swaps done")
             return graph
 
         attempts += 1
@@ -45,7 +47,7 @@ def randomize(graph: dict, swaps_num=5, max_total_attempts=1000) -> dict:
         ad = (ab[0], cd[1])
         bc = (ab[1], cd[0])
 
-        if (is_not_legal_to_add_edge(ad) or is_not_legal_to_add_edge(bc)):
+        if is_not_legal_to_add_edge(ad) or is_not_legal_to_add_edge(bc):
             continue
 
         remove_edge(ab)
