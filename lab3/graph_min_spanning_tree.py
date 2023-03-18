@@ -56,12 +56,3 @@ def find_min_spanning_tree(graph: dict, weights: list):
 
     return spanning_tree
 
-
-graph = lab3.graph_generator.generate_connected_graph(5, 7)
-weights = lab3.graph_generator.generate_weights_matrix(graph, 1, 10)
-print(graph)
-# print(weights)
-
-print(find_min_spanning_tree(graph, weights))
-
-print(graph)
