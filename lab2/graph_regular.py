@@ -1,5 +1,5 @@
-from graphic_sequence import create_from_sequence
-from graph_randomizer import randomly_swap_edges
+from lab2.graphic_sequence import create_from_sequence
+from lab2.graph_randomizer import randomly_swap_edges
 
 
 def random_regular_graph(n, k):

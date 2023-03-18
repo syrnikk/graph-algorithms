@@ -1,6 +1,6 @@
 from random import randint, choice
-from graphic_sequence import create_from_sequence
-from graph_components import max_connected_components, depth_first_search
+from lab2.graphic_sequence import create_from_sequence
+from lab2.graph_components import max_connected_components, depth_first_search
 
 
 def generate_euler(n=-1):
