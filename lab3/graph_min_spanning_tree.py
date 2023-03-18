@@ -1,4 +1,3 @@
-import lab3.graph_generator
 import itertools
 import copy
 
@@ -55,4 +54,3 @@ def find_min_spanning_tree(graph: dict, weights: list):
         raise ValueError("Provided graph is not connected.")
 
     return spanning_tree
-
