@@ -16,16 +16,14 @@ def graph_centre_minimax(graph: dict, weights: list):
     for k, i in enumerate(graph.keys()):
         center_calc[k] = (sum(dist_matrix[i]), max(dist_matrix[i]))
 
-    center_vertex_num = max(center_calc, key=lambda x: center_calc[x][0])
+    center_vertex_num = min(center_calc, key=lambda x: center_calc[x][0])
     minimax_vertex_num = min(center_calc, key=lambda x: center_calc[x][1])
 
-    center_vertices = list(filter(lambda x: center_calc[x][0]
-                                  == center_calc[center_vertex_num][0], center_calc))
+    center_vertices = list(filter(lambda x: center_calc[x][0] == center_calc[center_vertex_num][0], center_calc))
 
-    minimax_vertices = list(filter(lambda x: center_calc[x][1]
-                                   == center_calc[minimax_vertex_num][1], center_calc))
+    minimax_vertices = list(filter(lambda x: center_calc[x][1] == center_calc[minimax_vertex_num][1], center_calc))
 
-    return(center_vertices, minimax_vertices)
+    return (center_vertices, center_calc[center_vertex_num][0]), (minimax_vertices, center_calc[minimax_vertex_num][1])
 
 
 if __name__ == "__main__":

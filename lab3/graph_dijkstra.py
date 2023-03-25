@@ -29,7 +29,7 @@ class GraphDijkstra:
             while next_node is not None:
                 path.insert(0, next_node)
                 next_node = self.ps[next_node]
-            print(f'{self.source_node} -> {node}: {path}')
+            print(f'{self.source_node} -> {node} ({self.ds[node]}): {path}')
 
     def __relax(self, u, v, weights_matrix):
         if self.ds[v] > self.ds[u] + weights_matrix[u][v]:
