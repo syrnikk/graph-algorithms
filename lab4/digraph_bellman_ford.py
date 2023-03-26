@@ -8,6 +8,14 @@ import matplotlib.pyplot as plt
 
 
 def __change_node_labels(graph: dict):
+    """Helper method that changes node labels
+
+    Args:
+        graph (dict): graph
+
+    Returns:
+        dict: new graph with changed labels
+    """
     new_graph = {}
     old_keys = list(graph.keys())
     for i in range(len(old_keys)):
@@ -16,8 +24,19 @@ def __change_node_labels(graph: dict):
     return new_graph
 
 def __generate_random_connected_digraph(max_node_number: int):
+    """Method that generates connected digraph
+
+    Args:
+        max_node_number (int): maximum number of nodes (must be greater or equal to 3)
+
+    Raises:
+        ValueError: Maximum node number must be greater or equal to 3
+
+    Returns:
+        dict: connected digraph
+    """
     if max_node_number < 3:
-        raise ValueError("Maximum node number must be greater than 3")
+        raise ValueError("Maximum node number must be greater or equal to 3")
 
     nodes_number = random.randint(3, max_node_number)
     probability = random.uniform(0.2, 1)
@@ -42,6 +61,19 @@ def __generate_random_connected_digraph(max_node_number: int):
 
 
 def __assign_edge_weight(digraph: dict, min_weight: int, max_weight: int):
+    """Helper method that assigns weights to edges
+
+    Args:
+        digraph (dict): digraph
+        min_weight (int): minimum weight
+        max_weight (int): maximum weight (must be greater or equal to min weight)
+
+    Raises:
+        ValueError: Minimum weight cannot be greater than maximum weight
+
+    Returns:
+        (dict, list): digraph and weights matrix for that graph
+    """
     if min_weight > max_weight:
         raise ValueError(
             "Minimum weight cannot be greater than maximum weight")
@@ -52,6 +84,20 @@ def __assign_edge_weight(digraph: dict, min_weight: int, max_weight: int):
 
 
 def bellman_ford(graph: dict, weights: list, start: int):
+    """Bellman-Ford algorithm implementation
+
+    Args:
+        graph (dict): graph
+        weights (list): matrix of weights
+        start (int): starting node
+
+    Raises:
+        ValueError: Starting vertex not present in the graph
+        ValueError: Graph contains negative cycle
+
+    Returns:
+        
+    """
     if start > len(graph.keys()):
         raise ValueError("Starting vertex not present in the graph")
 
