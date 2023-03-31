@@ -44,7 +44,9 @@ def __transpose(graph):
 
 if __name__ == '__main__':
     graph = generate_digraph_by_probability(5, 0.3)
+    print(find_connected_components(graph))
 
+    # plot
     fig, ax = plt.subplots(figsize=(5, 5))
 
     g = igraph.Graph(directed=True)
@@ -56,5 +58,3 @@ if __name__ == '__main__':
                 background='Light Slate Gray')
 
     plt.show()
-
-    print(find_connected_components(graph))
