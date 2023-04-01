@@ -60,7 +60,7 @@ def __generate_random_connected_digraph(max_node_number: int):
     return connected_random_digraph
 
 
-def __assign_edge_weight(digraph: dict, min_weight: int, max_weight: int):
+def assign_edge_weight(digraph: dict, min_weight: int, max_weight: int):
     """Helper method that assigns weights to edges
 
     Args:
@@ -140,7 +140,7 @@ def bellman_ford(graph: dict, weights: list, start: int):
 
 if __name__ == "__main__":
     g = __generate_random_connected_digraph(5)
-    g, w = __assign_edge_weight(g, -2, 100)
+    g, w = assign_edge_weight(g, -2, 100)
 
     bellman_ford(g,w,0)
 
