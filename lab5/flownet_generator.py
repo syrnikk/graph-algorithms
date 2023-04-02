@@ -52,7 +52,7 @@ def generate_flownet(hidden_layers: int, edge_min_weight: int = 1, edge_max_weig
     chosen_candidates = random.choices(all_candidates, k=2 * hidden_layers)
 
     for candidate in chosen_candidates:
-        if candidate[1] not in graph[candidate[0]]:
+        if candidate[0] not in graph[candidate[1]] and candidate[1] not in graph[candidate[0]]:
             graph[candidate[0]].append(candidate[1])
 
     return graph, layers, __generate_weights_matrix(graph, edge_min_weight, edge_max_weight)
