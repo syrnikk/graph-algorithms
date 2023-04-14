@@ -23,6 +23,7 @@ def __change_node_labels(graph: dict):
 
     return new_graph
 
+
 def __generate_random_connected_digraph(max_node_number: int):
     """Method that generates connected digraph
 
@@ -80,7 +81,7 @@ def assign_edge_weight(digraph: dict, min_weight: int, max_weight: int):
 
     weights_matrix = generate_weights_matrix(digraph, min_weight, max_weight)
 
-    return (digraph, weights_matrix)
+    return digraph, weights_matrix
 
 
 def bellman_ford(graph: dict, weights: list, start: int):
@@ -96,7 +97,7 @@ def bellman_ford(graph: dict, weights: list, start: int):
         ValueError: Graph contains negative cycle
 
     Returns:
-        
+
     """
     if start > len(graph.keys()):
         raise ValueError("Starting vertex not present in the graph")
@@ -104,60 +105,69 @@ def bellman_ford(graph: dict, weights: list, start: int):
     def init(source_node):
         ds = {node: math.inf for node in graph}
         ps = {node: None for node in graph}
-        
+
         ds[source_node] = 0
 
-        return (ds,ps)
+        return ds, ps
 
     def relax(ds, ps, u, v, weights):
         if ds[v] > ds[u] + weights[u][v]:
             ds[v] = ds[u] + weights[u][v]
             ps[v] = u
 
-    def print_shortest_path(ps):
-        for k in reversed(graph.keys()):
-            c = k
-            while c != None:
-                print(c,end = '->')
-                c = ps[c]
-            print('None',end = '')
-            print()
-
-    (ds,ps) = init(start)
+    ds, ps = init(start)
     n = len(graph.keys())
 
-    for _ in range(n-1):
-        for u,n in graph.items():
+    for _ in range(n - 1):
+        for u, n in graph.items():
             for v in n:
-                relax(ds, ps ,u, v, weights)
-    
-    for u,n in graph.items():
+                relax(ds, ps, u, v, weights)
+
+    for u, n in graph.items():
         for v in n:
             if ds[v] > ds[u] + weights[u][v]:
                 raise ValueError("Graph contains negative cycle")
-    
-    print_shortest_path(ps)
+
+    return ds, ps
+
+
+def print_shortest_path(graph, start, ds, ps):
+    for k in sorted(graph.keys()):
+        if k != start and ps[k] is None:
+            print(f"No path from {start} to {k}")
+            continue
+
+        path = []
+        while k is not None:
+            path.append(k)
+            k = ps[k]
+
+        print(f"Shortest path from {start} to {path[0]} ({ds[path[0]]}): {path[::-1]}")
+
+    return
+
 
 if __name__ == "__main__":
     g = __generate_random_connected_digraph(5)
     g, w = assign_edge_weight(g, -2, 100)
 
-    bellman_ford(g,w,0)
+    bellman_ford(g, w, 0)
 
     fig, ax = plt.subplots(figsize=(5, 5))
 
-    gr = igraph.Graph(directed = True)
+    gr = igraph.Graph(directed=True)
     gr.add_vertices(list(g.keys()))
 
-    for u,n in g.items():
+    for u, n in g.items():
         for v in n:
             if w[u][v] != None:
-                gr.add_edge(u,v,weight = w[u][v])
+                gr.add_edge(u, v, weight=w[u][v])
 
     gr.es['weight'] = [e['weight'] for e in gr.es]
     layout = gr.layout("kk")
 
-    igraph.plot(gr, target=ax, layout = layout, vertex_label = g.keys() ,edge_label = gr.es['weight'])
+    igraph.plot(gr, target=ax, layout=layout, vertex_label=g.keys(), edge_label=gr.es['weight'])
 
     plt.show()
 
+    print(g)
