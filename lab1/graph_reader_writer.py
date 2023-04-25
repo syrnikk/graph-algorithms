@@ -28,11 +28,11 @@ def read_list(src, v_sep=":", n_sep=","):
     return dict(result)
 
 
-def read_adj_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_sep=","):
-    """Function that reads graph represented as adjacency matrix
+def read_incidence_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_sep=","):
+    """Function that reads graph represented as incidence matrix
 
     Args:
-        src (string): string value of graph represented as adjacency matrix
+        src (string): string value of graph represented as incidence matrix
         no_v (bool, optional): no vertices labels. Defaults to False.
         no_e (bool, optional): no edges labels. Defaults to False.
         v_sep (str, optional): vertices separator. Defaults to " ".
@@ -129,7 +129,7 @@ def print_nei_matrix(vertices, matrix, sep=" ", display_dashes=True):
         print()
 
 
-def print_adj_matrix(vertices, edges, matrix, sep=" "):
+def print_incidence_matrix(vertices, edges, matrix, sep=" "):
     """Function printing the graph from the adjacency matrix form
 
     Args:
@@ -159,15 +159,15 @@ if __name__ == "__main__":
         mt = read_nei_matrix(f.readlines(), v_sep=" ", n_sep=" ")
         print_nei_matrix(mt[0], mt[1])
         print()
-    with open("./examples/adj_matrix.txt", "r") as f:
-        adj = read_adj_matrix(f, v_sep=";", e_sep="f", a_sep=" ")
-        print_adj_matrix(adj[0], adj[1], adj[2])
+    with open("./examples/inc_matrix.txt", "r") as f:
+        adj = read_incidence_matrix(f, v_sep=";", e_sep="f", a_sep=" ")
+        print_incidence_matrix(adj[0], adj[1], adj[2])
         print()
-    with open("./examples/adj_matrix_no_header.txt", "r") as f:
-        adj = read_adj_matrix(f, no_e=True, v_sep="x", a_sep=" ")
-        print_adj_matrix(adj[0], adj[1], adj[2])
+    with open("./examples/inc_matrix_no_header.txt", "r") as f:
+        adj = read_incidence_matrix(f, no_e=True, v_sep="x", a_sep=" ")
+        print_incidence_matrix(adj[0], adj[1], adj[2])
         print()
-    with open("./examples/adj_matrix_no_edges_vertices.txt", "r") as f:
-        adj = read_adj_matrix(f, no_e=True, no_v=True, v_sep="x", a_sep="t")
-        print_adj_matrix(adj[0], adj[1], adj[2])
+    with open("./examples/inc_matrix_no_edges_vertices.txt", "r") as f:
+        adj = read_incidence_matrix(f, no_e=True, no_v=True, v_sep="x", a_sep="t")
+        print_incidence_matrix(adj[0], adj[1], adj[2])
         print()
