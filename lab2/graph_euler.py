@@ -17,7 +17,7 @@ def generate_euler(n=-1):
         n = randint(2, 10)
     elif n == 2:
         # specjalny przypadek
-        return {0: [1], 1: [0]}
+        return None
 
     graph = {}
     while graph == {}:
