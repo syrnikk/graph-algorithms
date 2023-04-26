@@ -1,0 +1,6 @@
+0u1u0u0u1
+1u0u1u1u1
+0u1u0u1u0
+0u1u1u0u1
+1u1u0u1u0
+1u1u0u1u0
