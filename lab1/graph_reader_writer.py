@@ -62,7 +62,7 @@ def read_incidence_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_s
 
     matrix = np.matrix(matrix, dtype=int)
 
-    if len(edges) != matrix.shape[1] and not no_e:
+    if (len(edges) != matrix.shape[1] and not no_e) or (matrix > 1).any():
         raise ValueError('Incorrect matrix')
 
     return (vertices, edges, matrix)
@@ -95,6 +95,9 @@ def read_nei_matrix(src, v=False, v_sep=" ", n_sep=","):
         raise ValueError('Incorrect matrix shape')
 
     matrix = np.matrix(matrix, dtype=int)
+
+    if (matrix > 1).any():
+        raise ValueError('Incorrect matrix')
 
     return (vertices, matrix)
 
@@ -185,12 +188,30 @@ if __name__ == "__main__":
             print()
     except ValueError as e:
         print(e)
+    try:
+        with open("./examples/nei_matrix_4.txt", "r") as f:
+            mt = read_nei_matrix(f, v=False, n_sep="k")
+            print_nei_matrix(mt[0], mt[1])
+            print()
+    except ValueError as e:
+        print(e)
     with open("./examples/inc_matrix.txt", "r") as f:
         adj = read_incidence_matrix(f, v_sep=";", e_sep="f", a_sep=" ")
         print_incidence_matrix(adj[0], adj[1], adj[2])
         print()
     with open("./examples/inc_matrix_no_header.txt", "r") as f:
         adj = read_incidence_matrix(f, no_e=True, v_sep="x", a_sep=" ")
+        print_incidence_matrix(adj[0], adj[1], adj[2])
+        print()
+    try:
+        with open("./examples/inc_matrix_no_header_2.txt", "r") as f:
+            adj = read_incidence_matrix(f, no_e=True, v_sep="x", a_sep=".")
+            print_incidence_matrix(adj[0], adj[1], adj[2])
+            print()
+    except ValueError as e:
+        print(e)
+    with open("./examples/inc_matrix_no_header_3.txt", "r") as f:
+        adj = read_incidence_matrix(f, no_e=True, v_sep="q", a_sep=".")
         print_incidence_matrix(adj[0], adj[1], adj[2])
         print()
     try:

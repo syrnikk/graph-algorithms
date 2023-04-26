@@ -1,0 +1,5 @@
+0k1k0k0k1
+1k0k1k1k1
+0k1k0k1k0
+0k1k1k0k2
+1k1k0k1k0
