@@ -62,7 +62,7 @@ def read_incidence_matrix(src, no_v=False, no_e=False, v_sep=" ", e_sep=" ", a_s
 
     matrix = np.matrix(matrix, dtype=int)
 
-    if (len(edges) != matrix.shape[1] and not no_e) or (matrix > 1).any():
+    if (len(edges) != matrix.shape[1] and not no_e) or (matrix > 1).any() or (matrix < -1).any():
         raise ValueError('Incorrect matrix')
 
     return (vertices, edges, matrix)
@@ -96,7 +96,7 @@ def read_nei_matrix(src, v=False, v_sep=" ", n_sep=","):
 
     matrix = np.matrix(matrix, dtype=int)
 
-    if (matrix > 1).any():
+    if (matrix > 1).any() or (matrix < 0).any():
         raise ValueError('Incorrect matrix')
 
     return (vertices, matrix)
