@@ -67,7 +67,7 @@ def page_rank_matrix(digraph: dict, eps : float = 1e-6):
             break
         pt = pt_1
 
-    final_p = [(i, e / sum(pt)) for i, e in enumerate(pt)]
+    final_p = [(i, e) for i, e in enumerate(pt)]
 
     return sorted(final_p, key=lambda x: x[1], reverse=True)
 
