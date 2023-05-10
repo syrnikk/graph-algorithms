@@ -36,7 +36,6 @@ def page_rank_random(digraph: dict, N: int):
     return sorted(final_p, key=lambda x: x[1], reverse=True)
 
 
-# equation from: https://en.wikipedia.org/wiki/PageRank
 def page_rank_matrix(digraph: dict, eps : float = 1e-6):
     """Page rank implementation
 
@@ -68,7 +67,6 @@ def page_rank_matrix(digraph: dict, eps : float = 1e-6):
             break
         pt = pt_1
 
-    # normalization --> probabilities must sum up to 1
     final_p = [(i, e / sum(pt)) for i, e in enumerate(pt)]
 
     return sorted(final_p, key=lambda x: x[1], reverse=True)
