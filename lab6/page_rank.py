@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from lab1.graph_converter import convert_list_to_matrix
 
 
 def page_rank_random(digraph: dict, N: int):
@@ -36,7 +37,7 @@ def page_rank_random(digraph: dict, N: int):
     return sorted(final_p, key=lambda x: x[1], reverse=True)
 
 
-def page_rank_matrix(digraph: dict, eps : float = 1e-6):
+def page_rank_matrix(digraph: dict, eps: float = 1e-6):
     """Page rank implementation
 
     Args:
@@ -46,25 +47,32 @@ def page_rank_matrix(digraph: dict, eps : float = 1e-6):
     Returns:
         list: List of tuples containing (node, pagerank value)
     """
+    def vertices_degrees(digraph):
+        return np.array([len(digraph[k]) for k in digraph])
 
     d = .15
     s = len(digraph)
 
-    # create list of probabilities
-    pt = [1 / s] * s
-    while True:
-        # create list of new probabilities
-        pt_1 = [0] * s
+    pt = [1/s] * s
+    pt_1 = [0] * s
 
+    P = np.zeros((s, s), dtype=float)
+
+    A = convert_list_to_matrix(digraph)
+    v = vertices_degrees(digraph)
+
+    for i in range(s):
         for j in range(s):
-            for neighbor in digraph[j]:
-                # visiting neighbor has 0.85 probability
-                pt_1[neighbor] += (1-d) * pt[j] / len(digraph[j])
-            # random vertex has 0.15 probability of being visited
-            pt_1[j] += d / s
-            
+            if v[i] != 0:
+                P[i, j] = ((1-d)*A[i, j])/v[i] + d/s
+            else:
+                P[i, j] = 1/s
+    while True:
+        pt_1 = np.dot(pt, P)
+
         if np.linalg.norm(np.array(pt_1) - np.array(pt)) < eps:
             break
+
         pt = pt_1
 
     final_p = [(i, e) for i, e in enumerate(pt)]
