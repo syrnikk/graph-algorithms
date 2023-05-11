@@ -70,7 +70,7 @@ def page_rank_matrix(digraph: dict, eps: float = 1e-6):
     while True:
         pt_1 = np.dot(pt, P)
 
-        if np.linalg.norm(np.array(pt_1) - np.array(pt)) < eps:
+        if np.linalg.norm(pt_1 - pt) < eps:
             break
 
         pt = pt_1
